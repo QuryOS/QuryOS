@@ -56,27 +56,50 @@ document.addEventListener('visibilitychange', () => {
     }
 });
 
+function sistemaInstalado(){
+    return localStorage.getItem('so_instalado') === 'si';
+}
+
+function instalarSistema(){
+    localStorage.setItem('so_instalado', 'si');
+    // Ocultamos el panel de instalación
+    document.getElementById('panel-instalar').style.display = 'none';
+    // Mostramos la calibración
+    document.getElementById('panel-calib').classList.add('mostrar');
+    document.getElementById('limites').classList.add('mostrar');
+    dibujarTodoAlInstante();
+    vincularEventosTiempoReal();
+}
+
 window.onload = () => {
-    const c = localStorage.getItem('so_config');
-    if(c) config = {...config, ...JSON.parse(c)};
+  // 👇 PRIMERO: Verificamos si ya está instalado
+  if (!sistemaInstalado()) {
+    // NO instalado → se ve el botón, no hacemos nada más
+    return;
+  }
 
-    orden = JSON.parse(localStorage.getItem('so_orden') || '["ajustes","tienda"]');
+  // ✅ SÍ está instalado → seguimos con el flujo normal
+  const c = localStorage.getItem('so_config');
+  if (c) config = {...config, ...JSON.parse(c)};
 
-    obtenerIdsAppsNuevas().forEach(id => appsConocidas.add(id));
-    limpiarFinalDeOrden();
-    guardarOrden();
+  orden = JSON.parse(localStorage.getItem('so_orden') || '["ajustes","tienda"]');
 
-    aplicarFondo();
+  obtenerIdsAppsNuevas().forEach(id => appsConocidas.add(id));
+  limpiarFinalDeOrden();
+  guardarOrden();
 
-    if(!config.calibrado){
-        document.getElementById('panel-calib').classList.add('mostrar');
-        document.getElementById('limites').classList.add('mostrar');
-        dibujarTodoAlInstante();
-        vincularEventosTiempoReal();
-    }else{
-        iniciarEscritorio();
-    }
+  aplicarFondo();
+
+  if (!config.calibrado) {
+    document.getElementById('panel-calib').classList.add('mostrar');
+    document.getElementById('limites').classList.add('mostrar');
+    dibujarTodoAlInstante();
+    vincularEventosTiempoReal();
+  } else {
+    iniciarEscritorio();
+  }
 };
+
 
 // ==================================================
 // 📦 SINCRONIZACIÓN DE NUEVAS INSTALACIONES
