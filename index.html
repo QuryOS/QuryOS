@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SO HTML — Escritorio</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+<div id="fondo"></div>
+<div id="grid-lineas"></div>
+<div id="limites">
+    <div class="borde" id="borde-sup"></div>
+    <div class="borde" id="borde-inf"></div>
+    <div class="borde" id="borde-izq"></div>
+    <div class="borde" id="borde-der"></div>
+</div>
+
+<div id="panel-calib">
+    <h2>📐 Calibración de Pantalla</h2>
+    <div class="fila">
+        <label>Margen Superior</label>
+        <input type="range" id="m-sup" min="0" max="150" value="0">
+        <span class="valor" id="v-sup">0px</span>
+    </div>
+    <div class="fila">
+        <label>Margen Inferior</label>
+        <input type="range" id="m-inf" min="0" max="150" value="0">
+        <span class="valor" id="v-inf">0px</span>
+    </div>
+    <div class="fila">
+        <label>Margen Izquierdo</label>
+        <input type="range" id="m-izq" min="0" max="150" value="0">
+        <span class="valor" id="v-izq">0px</span>
+    </div>
+    <div class="fila">
+        <label>Margen Derecho</label>
+        <input type="range" id="m-der" min="0" max="150" value="0">
+        <span class="valor" id="v-der">0px</span>
+    </div>
+    <div class="fila-num">
+        <label>Columnas</label>
+        <input type="number" id="cols" value="4" min="2" max="8">
+    </div>
+    <div class="fila-num">
+        <label>Filas</label>
+        <input type="number" id="filas" value="6" min="3" max="10">
+    </div>
+    <button class="btn-primario" onclick="aplicarCalib()">✅ Confirmar y Guardar</button>
+</div>
+
+<div id="escritorio"></div>
+<div id="indicadores-paginas" class="oculto"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
