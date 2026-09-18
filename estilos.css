@@ -1,5 +1,6 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,sans-serif}
-html,body{height:100%;overflow:hidden;background:#fff}
+html,body{height:100%;height:100vh;width:100%;position:fixed;overflow:hidden;background:#fff}
+
 *{-webkit-tap-highlight-color:transparent !important;user-select:none}
 
 #fondo{position:fixed;inset:0;z-index:-1;background:#fff}
