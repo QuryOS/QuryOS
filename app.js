@@ -5,7 +5,7 @@ function esImagen(valor){
     return valor.startsWith('http://') || valor.startsWith('https://') || valor.startsWith('/') || valor.includes('.jpg') || valor.includes('.png') || valor.includes('.webp') || valor.includes('.gif');
 }
 
-let config = { calibrado:false, mSup:0, mInf:0, mIzq:16, mDer:0, cols:4, filas:6, colorFondo:'#ffffff' };
+let config = { calibrado:false, mSup:0, mInf:0, mIzq:0, mDer:0, cols:4, filas:6, colorFondo:'#ffffff' };
 let orden = [];
 
 function obtenerListaApps(){
