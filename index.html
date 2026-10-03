@@ -1,77 +1,220 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SO HTML — Escritorio</title>
-    <link rel="stylesheet" href="estilos.css">
-    <!-- Pantalla completa sin barra del navegador -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#ffffff">
-    <!-- Tu logo como icono y pantalla de inicio -->
-<link rel="icon" sizes="192x192" href="TU-LOGO.png">
-<link rel="apple-touch-icon" sizes="180x180" href="TU-LOGO.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quri OS</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    *{margin:0; padding:0; box-sizing:border-box; font-family:system-ui, -apple-system, sans-serif;}
 
+    body{
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Fondo con AURORAS animadas */
+    .aurora{
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background: 
+        radial-gradient(ellipse at 20% 20%, rgba(79, 172, 254, 0.35) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 30%, rgba(150, 93, 255, 0.3) 0%, transparent 45%),
+        radial-gradient(ellipse at 60% 80%, rgba(72, 207, 172, 0.25) 0%, transparent 50%),
+        radial-gradient(ellipse at 10% 70%, rgba(238, 118, 232, 0.2) 0%, transparent 45%);
+      animation: auroraMovimiento 15s ease-in-out infinite alternate;
+      z-index: 0;
+      filter: blur(40px);
+    }
+    @keyframes auroraMovimiento {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(5%, -5%) rotate(5deg); }
+      100% { transform: translate(-5%, 5%) rotate(-5deg); }
+    }
+
+    .contenido{
+      position: relative;
+      z-index: 1;
+    }
+
+    h1{
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+    }
+    .subtitulo{
+      font-size: 1.15rem;
+      color: #d0d0d0;
+      max-width: 520px;
+      margin-bottom: 3rem;
+      line-height: 1.7;
+    }
+
+    /* Botón MORADO con esquinas MUY redondeadas */
+    .boton{
+      background: linear-gradient(135deg, #6B21A8, #8B5CF6);
+      color: white;
+      border: none;
+      padding: 1.15rem 3rem;
+      font-size: 1.1rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all .3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.35);
+    }
+    .boton:hover{
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+      background: linear-gradient(135deg, #7C3AED, #A78BFA);
+    }
+
+    .oculto{display: none !important;}
+
+    /* Tarjetas de launchers */
+    .launchers{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      max-width: 820px;
+      width: 100%;
+      margin-top: 2.5rem;
+    }
+    .launcher-card{
+      background: rgba(25, 25, 35, 0.6);
+      border: 2px solid rgba(99, 102, 241, 0.25);
+      border-radius: 20px;
+      padding: 2rem 1.25rem;
+      cursor: pointer;
+      transition: all .3s ease;
+      backdrop-filter: blur(10px);
+    }
+    .launcher-card:hover{
+      border-color: #8B5CF6;
+      transform: translateY(-6px);
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.15);
+    }
+    .launcher-card h3{font-size: 1.2rem; margin-bottom: 0.5rem;}
+    .launcher-card p{color: #94a3b8; font-size: 0.9rem;}
+
+    .cambiar{
+      margin-top: 2rem;
+      color: #94a3b8;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 0.9rem;
+    }
+    .cambiar:hover{color: #c4b5fd;}
+  </style>
 </head>
-
 <body>
 
-    <div id="panel-instalar">
-  <div class="caja-instalar">
-    <img src="TU-LOGO.png" alt="QuryOS" class="logo-instalar">
-    <h1>Bienvenido a QuryOS</h1>
-    <p>Para comenzar, instala el sistema en tu dispositivo.</p>
-    <button class="btn-instalar" onclick="instalarSistema()">📥 Instalar Sistema Operativo</button>
+  <div class="aurora"></div>
+
+  <div class="contenido">
+    <div id="pantalla-instala">
+      <h1>Quri OS</h1>
+      <p class="subtitulo">
+        Quri OS es uno de los pocos sistemas operativos que no necesita instalar ninguna aplicación pesada.
+        <br><br>
+        Simplemente agrega nuestro acceso directo a tu dispositivo y listo, entra como una app más.
+      </p>
+      <button id="btn-instalar" class="boton">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+        Agregar ahora
+      </button>
+    </div>
+
+    <div id="pantalla-elegir" class="oculto">
+      <h1>Elige tu estilo</h1>
+      <p class="subtitulo">Selecciona la interfaz que más te guste</p>
+      <div class="launchers">
+        <div class="launcher-card" data-launcher="clasico">
+          <h3>Clásico</h3>
+          <p>Estilo tradicional y familiar</p>
+        </div>
+        <div class="launcher-card" data-launcher="moderno">
+          <h3>Moderno</h3>
+          <p>Diseño limpio y actual</p>
+        </div>
+        <div class="launcher-card" data-launcher="minimalista">
+          <h3>Minimalista</h3>
+          <p>Sencillo, ligero y rápido</p>
+        </div>
+        <div class="launcher-card" data-launcher="avanzado">
+          <h3>Avanzado</h3>
+          <p>Todas las funciones completas</p>
+        </div>
+      </div>
+      <p class="cambiar" id="btn-cambiar">Cambiar de interfaz más tarde</p>
+    </div>
   </div>
-    </div>
-    
-<div id="fondo"></div>
-<div id="grid-lineas"></div>
-<div id="limites">
-    <div class="borde" id="borde-sup"></div>
-    <div class="borde" id="borde-inf"></div>
-    <div class="borde" id="borde-izq"></div>
-    <div class="borde" id="borde-der"></div>
-</div>
 
-<div id="panel-calib">
-    <h2>📐 Calibración de Pantalla</h2>
-    <div class="fila">
-        <label>Margen Superior</label>
-        <input type="range" id="m-sup" min="0" max="150" value="0">
-        <span class="valor" id="v-sup">0px</span>
-    </div>
-    <div class="fila">
-        <label>Margen Inferior</label>
-        <input type="range" id="m-inf" min="0" max="150" value="0">
-        <span class="valor" id="v-inf">0px</span>
-    </div>
-    <div class="fila">
-        <label>Margen Izquierdo</label>
-        <input type="range" id="m-izq" min="0" max="150" value="0">
-        <span class="valor" id="v-izq">0px</span>
-    </div>
-    <div class="fila">
-        <label>Margen Derecho</label>
-        <input type="range" id="m-der" min="0" max="150" value="0">
-        <span class="valor" id="v-der">0px</span>
-    </div>
-    <div class="fila-num">
-        <label>Columnas</label>
-        <input type="number" id="cols" value="4" min="2" max="8">
-    </div>
-    <div class="fila-num">
-        <label>Filas</label>
-        <input type="number" id="filas" value="6" min="3" max="10">
-    </div>
-    <button class="btn-primario" onclick="aplicarCalib()">✅ Confirmar y Guardar</button>
-</div>
+<script>
+let eventoInstalacion = null;
 
-<div id="escritorio"></div>
-<div id="indicadores-paginas" class="oculto"></div>
+window.addEventListener('load', () => {
+  const yaInstalado = localStorage.getItem('qurios_instalado');
+  const launcherElegido = localStorage.getItem('qurios_launcher');
 
-<script src="app.js"></script>
+  if (yaInstalado === 'si') {
+    document.getElementById('pantalla-instala').classList.add('oculto');
+    document.getElementById('pantalla-elegir').classList.remove('oculto');
+    if (launcherElegido) irALauncher(launcherElegido);
+  }
+});
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  eventoInstalacion = e;
+});
+
+document.getElementById('btn-instalar').addEventListener('click', async () => {
+  if (!eventoInstalacion) {
+    alert('Ve al menú del navegador → "Agregar a pantalla de inicio"');
+    return;
+  }
+  const resultado = await eventoInstalacion.prompt();
+  if (resultado.outcome === 'accepted') {
+    localStorage.setItem('qurios_instalado', 'si');
+    document.getElementById('pantalla-instala').classList.add('oculto');
+    document.getElementById('pantalla-elegir').classList.remove('oculto');
+  }
+});
+
+document.querySelectorAll('.launcher-card').forEach(tarjeta => {
+  tarjeta.addEventListener('click', () => {
+    const nombre = tarjeta.dataset.launcher;
+    localStorage.setItem('qurios_launcher', nombre);
+    irALauncher(nombre);
+  });
+});
+
+function irALauncher(nombre) {
+  window.location.href = `launcher-${nombre}.html`;
+}
+
+document.getElementById('btn-cambiar').addEventListener('click', () => {
+  localStorage.removeItem('qurios_launcher');
+  alert('Podrás elegir otra interfaz la próxima vez que entres ✅');
+});
+</script>
 </body>
 </html>
