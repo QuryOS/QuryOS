@@ -3,7 +3,7 @@ name: Publicar QuriOS
 on:
   push:
     paths:
-      - 'qurios.zip'
+      - '*.zip'
   workflow_dispatch:
 
 permissions:
@@ -25,7 +25,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Descomprimir
         run: |
-          unzip -q -o qurios.zip -d site
+          ZIP=$(ls -t *.zip | head -n 1)
+          echo "Usando: $ZIP"
+          unzip -q -o "$ZIP" -d site
           rm -f site/LEEME.txt
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
