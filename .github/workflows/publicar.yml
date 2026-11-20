@@ -1,1 +1,53 @@
+name: Publicar QuriOS
 
+on:
+  push:
+    paths:
+      - '*.zip'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Descomprimir el zip más reciente
+        run: |
+          BEST=""; BT=0
+          for f in *.zip; do
+            T=$(git log -1 --format=%ct -- "$f")
+            if [ -n "$T" ] && [ "$T" -ge "$BT" ]; then BT=$T; BEST="$f"; fi
+          done
+          echo "Usando: $BEST"
+          unzip -q -o "$BEST" -d site
+          rm -f site/LEEME.txt
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4
+      - name: Borrar los zip ya publicados
+        if: success()
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          if ls *.zip >/dev/null 2>&1; then
+            git rm -q -- *.zip
+            git commit -q -m "Limpiar zip ya publicado"
+            git push
+          fi
